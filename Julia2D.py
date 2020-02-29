@@ -8,24 +8,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from random import uniform
 from datetime import date
+import logging
+import time
 
-# Option
-# c = -0.7654 + 0.2020j
-max_iter = 100
-cmap = 'hot'
-interpolation = 'bilinear'
-
-# Windows
-w = 1000
-h = 1000
-dpi = 100
-xmin = -2
-xmax = 2
-ymin = -2
-ymax = 2
+# Execution time
+start_time = time.time()
 
 # Var
-result = np.zeros([h, w])
+today = date.today()
 
 # Random number
 x = uniform(-1.25, -0.75)
@@ -52,14 +42,40 @@ def julia(x, y, z, max_iter):
     return output
 
 
-r1 = np.linspace(xmin, xmax, w, dtype=np.float32)
-r2 = np.linspace(ymin, ymax, h, dtype=np.float32)
-z = r1 + r2[:, None]*1j
-n3 = julia(x, y, z, max_iter)
-result = n3.astype(float)
+def main(xmin=-2,
+         xmax=2,
+         ymin=-2,
+         ymax=2,
+         wResolution=1000,
+         hResolution=1000,
+         dpi=100,
+         max_iter=100,
+         cmap='hot'):
+    """Render the Julia set.
 
-plt.figure(dpi=dpi)
-today = date.today()
-plt.imsave("Exports/export-"+str(today)+".png",
-                                        result.T,
-                                        cmap=cmap)
+    :param xmin: limit of the image.
+    :param xmax: limit of the image.
+    :param ymin: limit of the image.
+    :param ymax: limit of the image.
+    :param wResolution: number of pixel in wide (resolution).
+    :param hResolution: number of pixel in wide (resolution).
+    :param dpi: density of pixel.
+    :param max_iter: maximum iteration per point.
+    :param cmap: color used for the rendering.
+    :return: Image of the Julia set
+    :rtype: png image
+    """
+    logging.info('Started rendering Julia set')
+
+    r1 = np.linspace(xmin, xmax, wResolution, dtype=np.float32)
+    r2 = np.linspace(ymin, ymax, hResolution, dtype=np.float32)
+    z = r1 + r2[:, None]*1j
+    n3 = julia(x, y, z, max_iter)
+    n3 = n3.astype(float)
+
+    plt.figure(dpi=dpi)
+    plt.imsave("Exports/export-"+str(today)+".png",
+                                            n3.T,
+                                            cmap=cmap)
+    logging.info('Executed in {} seconds, export name : export-{}.png'
+                 .format(time.time() - start_time, str(today)))
