@@ -34,10 +34,10 @@ jl.main()
 image = open("Exports/export-"+str(jl.today)+".png", 'rb')
 response = twitter.upload_media(media=image)
 media_id = [response['media_id']]
-# twitter.update_status(status=message.format(str(jl.today),
-#                                             str(jl.h),
-#                                             str(jl.w),
-#                                             str(jl.max_iter),
-#                                             str(jl.cmap),
-#                                             str(jl.x),
-#                                             str(jl.y)), media_ids=media_id)
+twitter.update_status(status=message.format(str(jl.today),
+                                            str(jl.h),
+                                            str(jl.w),
+                                            str(jl.max_iter),
+                                            str(jl.cmap),
+                                            str(jl.x),
+                                            str(jl.y)), media_ids=media_id)
