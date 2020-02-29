@@ -1,4 +1,4 @@
-"""Python Julia set generator for the twitter account FractakWeather.
+"""Python Julia set generator for the twitter account FractalDiary.
 
 by : Chittaro Hugo
 """
