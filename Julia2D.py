@@ -10,6 +10,7 @@ from random import uniform
 from datetime import date
 import logging
 import time
+from palettable.scientific.diverging import Vik_20
 
 # Execution time
 start_time = time.time()
@@ -79,3 +80,6 @@ def main(xmin=-2,
                                             cmap=cmap)
     logging.info('Executed in {} seconds, export name : export-{}.png'
                  .format(time.time() - start_time, str(today)))
+
+
+main(cmap=Vik_20)
