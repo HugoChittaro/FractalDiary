@@ -10,13 +10,18 @@ from random import uniform
 from datetime import date
 import logging
 import time
-from palettable.scientific.diverging import Vik_20
 
 # Execution time
 start_time = time.time()
 
 # Var
 today = date.today()
+
+message = """Julia set | {}\n
+Resolution : {} x {} ;
+Iteration : {} ;
+Colormap : {} ;
+c = {} + {}i"""
 
 # Random number
 x = uniform(-1.25, -0.75)
@@ -63,8 +68,8 @@ def main(xmin=-2,
     :param dpi: density of pixel.
     :param max_iter: maximum iteration per point.
     :param cmap: color used for the rendering.
-    :return: Image of the Julia set
-    :rtype: png image
+    :return: Image of the Julia set and message to be uploaded
+    :rtype: string
     """
     logging.info('Started rendering Julia set')
 
@@ -81,5 +86,14 @@ def main(xmin=-2,
     logging.info('Executed in {} seconds, export name : export-{}.png'
                  .format(time.time() - start_time, str(today)))
 
+    return message.format(str(today),
+                          str(hResolution),
+                          str(wResolution),
+                          str(max_iter),
+                          str(cmap),
+                          str(x),
+                          str(y))
 
-main(cmap=Vik_20)
+# Test
+if __name__ == "__main__":
+    main()
