@@ -1,3 +1,7 @@
+"""Python Julia set generator for the twitter account FractalDiary.
+
+by : Chittaro Hugo
+"""
 # Import
 from twython import Twython
 import Julia2D as jl
@@ -33,4 +37,4 @@ jl.main()
 image = open("Exports/export-"+str(jl.today)+".png", 'rb')
 response = twitter.upload_media(media=image)
 media_id = [response['media_id']]
-# twitter.update_status(status=jl.main(), media_ids=media_id)
+twitter.update_status(status=jl.main(), media_ids=media_id)

@@ -1,3 +1,7 @@
+"""Python Julia set generator for the twitter account FractalDiary.
+
+by : Chittaro Hugo
+"""
 import numpy as np
 import matplotlib.pylab as pl
 import matplotlib.colors as clr

@@ -1,5 +1,6 @@
 /__pycache__
 /venv
+/Exports
 auth.py
 log
 .DS_Store
