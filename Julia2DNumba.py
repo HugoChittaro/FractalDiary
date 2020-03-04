@@ -41,7 +41,7 @@ def julia(x, y, z, maxiter):
     :return: Escape time for each points
     :rtype: int
     """
-    c = complex(-0.8, 0.156)
+    c = complex(-0.8, -0.412)
     nreal = 0
     real = z.real
     imag = z.imag
@@ -78,7 +78,6 @@ def julia_set(xmin=-2,
               ymax=2,
               width=1000,
               height=1000,
-              dpi=300,
               maxiter=100,
               cmap='hot'):
     """Render the Julia set.
@@ -89,7 +88,6 @@ def julia_set(xmin=-2,
     :param ymax: limit of the image.
     :param wResolution: number of pixel in wide (resolution).
     :param hResolution: number of pixel in wide (resolution).
-    :param dpi: density of pixel.
     :param maxiter: maximum iteration per point.
     :param cmap: color used for the rendering.
     :return: Message to be uploaded
@@ -102,19 +100,11 @@ def julia_set(xmin=-2,
     z = r1 + r2[:, None]*1j
     n3 = julia_numpy(z, maxiter)
 
-    logging.info('Julia set rendered in {} seconds'
-                 .format(time.time() - start_time))
-
-    plt.figure(dpi=dpi)
     plt.imsave('Exports/export-'+str(today)+'.png',
                                             n3.T,
                                             cmap=cmap)
-    logging.info('Executed in {} seconds | export : export-{}.png'
-                 .format(time.time() - start_time,
-                         str(today),
-                         str(height),
-                         str(width),
-                         str(maxiter)))
+    logging.info('Julia set rendered in {} seconds| export : export-{}.png'
+                 .format(time.time() - start_time))
 
     return message.format(str(today),
                           str(height),
@@ -134,5 +124,5 @@ if __name__ == "__main__":
                         format='%(asctime)s %(levelname)s: %(message)s',
                         datefmt='%m/%d/%Y %I:%M:%S %p')
 
-    julia_set(width=1000, height=1000)
+    julia_set(width=12000, height=12000)
     print('Executed in {} seconds'.format(time.time() - start_time))

@@ -4,7 +4,7 @@ by : Chittaro Hugo
 """
 # Import
 from twython import Twython
-import Julia2D as jl
+import Julia2DNumba as jl
 import logging
 import color as cl
 from auth import (
@@ -20,6 +20,8 @@ logging.basicConfig(filename='log',
                     format='%(asctime)s %(levelname)s: %(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p')
 
+logging.info('Started twitter.py')
+
 # Var
 twitter = Twython(
     consumer_key,
@@ -29,12 +31,22 @@ twitter = Twython(
 )
 
 # Colormap
-customcmap = cl.Colormap('#000000', '#FF0000')
+anchor = {'#000764': 0,
+          '#206bcb': 0.16,
+          '#edffff': 0.42,
+          '#ffaa00': 0.6425,
+          '#000200': 0.8575,
+          '#000765': 1}
+customcmap = cl.colorMapCustomDist(**anchor)
 
 # jl.main(cmap=customcmap)
-jl.main()
 
-image = open("Exports/export-"+str(jl.today)+".png", 'rb')
-response = twitter.upload_media(media=image)
-media_id = [response['media_id']]
-twitter.update_status(status=jl.main(), media_ids=media_id)
+message = jl.julia_set(width=12000, height=12000, cmap=customcmap)
+
+try:
+    image = open("Exports/export-"+str(jl.today)+".png", 'rb')
+    response = twitter.upload_media(media=image)
+    media_id = [response['media_id']]
+    twitter.update_status(status=message, media_ids=media_id)
+except:
+    logging.error('Can\'t post on twitter')

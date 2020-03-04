@@ -7,7 +7,24 @@ import matplotlib.pylab as pl
 import matplotlib.colors as clr
 
 
-def Colormap(*colors):
+def colorMapCustomDist(**colors):
+    """Create custom colormap with a custom repartition of color.
+
+    :**color: anchor color for colorsmaps
+    :return: A color map
+    :rtype: matplotlib color map
+    """
+    buff = []
+
+    for key in colors.keys():
+        buff.append((colors[key], key))
+    cmap = clr.LinearSegmentedColormap.from_list('custom cmap',
+                                                 buff,
+                                                 N=256)
+    return cmap
+
+
+def colorMap(*colors):
     """Create custom colormap.
 
     :*color: anchor color for colorsmaps
@@ -25,10 +42,16 @@ def Colormap(*colors):
 
 
 if __name__ == "__main__":
+    anchor = {'#000764': 0,
+              '#206bcb': 0.16,
+              '#edffff': 0.42,
+              '#ffaa00': 0.6425,
+              '#000200': 0.8575,
+              '#000765': 1}
     n = 1000
     x = np.linspace(0, 1, 100)
     y = 0*x + 1
-    test = Colormap('#000000', '#FF0000', '#000000')(np.linspace(0, 1, n))
+    test = colorMapCustomDist(**anchor)(np.linspace(0, 1, n))
     for i in range(n):
         pl.plot(x, i*y, color=test[i])
     pl.show()
